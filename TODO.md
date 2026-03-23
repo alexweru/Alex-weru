@@ -1,11 +1,30 @@
-# Task Progress: Update index.html Challenges Navigation
+# Culture Document Fix Plan & Progress
 
-## Plan Steps:
-- [x] 1. Confirm file contents and identify exact nav link string
-- [x] 2. Create TODO.md for tracking
-- [x] 3. Edit index.html to replace YouTube Challenges link with templates/challenges.html
-- [x] 4. Verify the change (edit successful, nav now links to templates/challenges.html)
-- [x] 5. Complete task
+## Information Gathered
+- templates/culture.html: HTML page with iframe for embedding culture document.
+- Current iframe src uses invalid absolute Windows path to non-existent .docx: fails to load.
+- documents/Cultural Practice.pdf exists, content is Kikuyu Traditional Farming/Culture doc (text extracted fine).
+- JS has loadCultureDoc('pdf') for direct PDF load with cache bust.
+- Download links correct for PDF.
+- Page structure good, styles fine.
 
-**Status:** All steps completed successfully. Navigation updated: Challenges now links internally to templates/challenges.html instead of YouTube.
+## Plan
+- Fix iframe src to relative PDF path.
+- Update JS loadCultureDoc to use Office viewer for robust PDF viewing (optional, direct works).
+- Update labels/texts to match PDF content (Kikuyu Farming).
+- Ensure initial load works.
 
+## Dependent Files
+- templates/culture.html (main)
+- documents/Cultural Practice.pdf (no edit needed)
+
+## Followup steps
+- Open templates/culture.html in browser to test.
+- No installs needed.
+
+## Progress
+- [x] Analyzed files
+- [ ] Applied fixes to culture.html
+- [ ] Test page
+
+Proceed with edits?

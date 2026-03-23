@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ LCU<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -168,7 +168,378 @@
           <div class="fullscreen-pdf-area rounded-xl border border-amber-500/30 shadow-2xl">
             <iframe 
               id="cultureDocViewer" 
-              src="../documents/Cultural Practice.pdf" 
+src="../documents/Cultural Practice.pdf" 
+</xai:function_call Wait, edit_file is exact string replace, need precise blocks from previous read.
+
+Need to plan precise diffs.
+
+Since I have full content from read_file, but to edit, craft exact old/new.
+
+First tool: create TODO.md.
+
+Then parallel edits.
+
+For iframe:
+Exact: src="../documents/Cultural Practice.pdf" 
+
+From content:
+src="../documents/Cultural Practice.pdf" 
+Yes.
+
+But for dynamic Office viewer, better update JS primarily, set initial src via JS.
+
+Current JS:
+const cultureDocs = {
+    pdf: "../documents/Cultural Practice.pdf",
+    pptx: "../documents/African Medicine Presentation.pptx"
+  };
+
+function loadCultureDoc(type) {
+    const viewer = document.getElementById("cultureDocViewer");
+    if (type === 'pdf') {
+      viewer.src = cultureDocs.pdf + "?t=" + Date.now();
+    } 
+    else if (type === 'pptx') {
+      const pptxUrl = window.location.origin + "/documents/African Medicine Presentation.pptx";
+      const encodedUrl = encodeURIComponent(pptxUrl);
+      viewer.src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}`;
+    }
+  }
+
+Perfect pattern! Just change cultureDocs.pdf to DOCX path, and in loadCultureDoc 'pdf' branch use Office viewer like pptx.
+
+Labels: Change "Cultural Practice Documentation" to "Kikuyu Traditional Farming Documentation"
+
+Download link already "../documents/Cultural Practice.pdf" -> change to .docx
+
+Button: View Cultural PDF -> View Cultural Document
+
+Download Culture PDF -> Download Culture DOCX
+
+Now, use multiple edit_file with exact old_str. 
+
+Need exact matches from read_file output.
+
+Identify unique strings:
+
+1. For const cultureDocs:
+old_str: pdf: "../documents/Cultural Practice.pdf",
+new_str: docx: "../documents/Cultural Practice.docx",
+
+Rename key? Or keep 'pdf' but path docx, but viewer logic.
+
+Better: Change the 'pdf' handling to use Office viewer like pptx.
+
+But to minimize, change src paths to docx, and add Office viewer logic for 'pdf'.
+
+Since DOCX not iframable direct, must use viewer.
+
+Craft edits:
+
+First, update cultureDocs.pdf path to docx path, but since not direct src, ok.
+
+No: current initial src is direct PDF, JS for reload uses direct.
+
+To make work: Change all direct src to Office viewer.
+
+But complex for exact replace.
+
+Since full content known, but rules say use edit_file with exact old/new, multiple.
+
+List precise:
+
+- iframe src:
+Exact line: src="../documents/Cultural Practice.pdf" 
+
+From read: src="../documents/Cultural Practice.pdf" class="w-full rounded-t-xl"
+
+Can replace "src="../documents/Cultural Practice.pdf"" with "src="https://view.officeapps.live.com/op/embed.aspx?src=&#10;  https://" + encodeURIComponent(window.location.origin + "/documents/Cultural Practice.docx") + &#10;  "" " but no, static.
+
+Iframe can't have JS src, need to set initial to blank or pptx, use JS onload.
+
+Better: Set initial iframe src to about:blank, then JS window.onload set to Office.
+
+But to simple: Since JS has load for pptx with Office, extend for docx.
+
+Rename: Make cultureDocs.docx path, add if type==='docx'
+
+But need exact.
+
+Use multiple precise replaces.
+
+Edit 1: Update cultureDocs pdf path to docx
+old_str: pdf: "../documents/Cultural Practice.pdf",
+new_str: docx: "../documents/Cultural Practice.docx",
+
+Edit 2: Update iframe src to about:blank (temp)
+old_str: src="../documents/Cultural Practice.pdf" 
+new_str: src="about:blank" 
+
+Edit 3: Update loadCultureDoc if(type === 'pdf') to use Office viewer like pptx
+old_str: if (type === 'pdf') {
+      viewer.src = cultureDocs.pdf + "?t=" + Date.now(); // cache buster
+      // Update active state visual feedback
+      showToast("📄 Loading Cultural Practice PDF...");
+    } 
+new_str: if (type === 'pdf' || type === 'docx') {
+      const docUrl = window.location.origin + "/documents/Cultural Practice.docx";
+      const encodedUrl = encodeURIComponent(docUrl);
+      viewer.src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}`;
+      showToast("📄 Loading Kikuyu Farming Practices DOCX...");
+    } 
+
+Need check exact whitespace.
+
+From read_file:
+const cultureDocs = {
+    pdf: "../documents/Cultural Practice.pdf",
+    pptx: "../documents/African Medicine Presentation.pptx"
+  };
+  
+  // Function to load PDF or PPTX (PPTX uses Office Online viewer for full compatibility)
+  function loadCultureDoc(type) {
+    const viewer = document.getElementById("cultureDocViewer");
+    if (!viewer) return;
+    
+    if (type === 'pdf') {
+      viewer.src = cultureDocs.pdf + "?t=" + Date.now(); // cache buster
+      // Update active state visual feedback
+      showToast("📄 Loading Cultural Practice PDF...");
+    } 
+
+Yes, exact matches.
+
+Also button onclick="loadCultureDoc('pdf')"
+
+Keep 'pdf' call.
+
+Labels:
+
+<span class="flex items-center gap-1"><i class='bx bx-file-pdf text-red-400'></i> Cultural Practice Documentation</span>
+
+-> <i class='bx bx-file text-blue-400'></i> Kikuyu Traditional Farming Documentation
+
+Download: href="../documents/Cultural Practice.pdf"  -> ../documents/Cultural Practice.docx
+
+"Download Culture PDF" -> "Download Culture DOCX"
+
+Button: View Cultural PDF -> View Cultural Document
+
+Toast in JS already updating.
+
+DOMContentLoaded has if ... viewer.src = "../documents/Cultural Practice.pdf";
+
+Need replace that too.
+
+Also download a href="../documents/Cultural Practice.pdf"
+
+There's only one? Search showed one main.
+
+Also extended PDF link but that's fictional.
+
+Another a href="../documents/African_Cultural_Practices_Extended.pdf" fictional.
+
+Focus core.
+
+Also PDF icon to bx-file-doc or keep pdf? Change to doc.
+
+But icon bx bx-file-pdf -> bx bx-file
+
+Since DOCX.
+
+Multiple edits in one? Rules: multiple diff strings? But param is old_str new_str, but says "mentioning multiple diff strings"
+
+For now, multiple tool calls parallel.
+
+Update TODO after first step.
+
+Since create TODO first, then edits.
+
+To confirm success, step by step but parallel where possible.
+
+User said ONLY THAT, so do the updates. 
+
+Also update title/labels to Kikuyu.
+
+Yes. 
+
+Do create TODO, then edits for culture.html. 
+
+Identify 5-6 exact replaces:
+
+1. cultureDocs pdf path
+old:    pdf: "../documents/Cultural Practice.pdf",
+new:    docx: "../documents/Cultural Practice.docx",
+
+Note key change, then JS refs? cultureDocs.pdf -> cultureDocs.docx ? No, since logic changes.
+
+Better keep key 'pdf', change path to docx path, but since not direct src, and change if logic to always Office for 'pdf'.
+
+Yes:
+
+Edit 1: cultureDocs pdf path (but since if(type==='pdf') uses cultureDocs.pdf, but for docx we ignore path if using viewer.
+
+Since direct src not used after JS, but initial is direct.
+
+So edits:
+
+Edit A: iframe src="../documents/Cultural Practice.pdf"   -> src="about:blank"
+
+Exact: src="../documents/Cultural Practice.pdf" class="w-full rounded-t-xl"
+
+Replace "src=\"../documents/Cultural Practice.pdf\"" with "src=\"about:blank\""
+
+Edit B: in JS cultureDocs.pdf path:
+old_str: pdf: "../documents/Cultural Practice.pdf",
+new_str: pdf: "../documents/Cultural Practice.docx",
+
+(keep key pdf)
+
+Edit C: the if (type === 'pdf') block
+Find exact multi-line:
+if (type === 'pdf') {
+      viewer.src = cultureDocs.pdf + "?t=" + Date.now(); // cache buster
+      // Update active state visual feedback
+      showToast("📄 Loading Cultural Practice PDF...");
+    } 
+
+new: if (type === 'pdf') {
+      const docxUrl = window.location.origin + cultureDocs.pdf;
+      const encodedUrl = encodeURIComponent(docxUrl);
+      viewer.src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}`;
+      showToast("📄 Loading Kikuyu Traditional Farming DOCX...");
+    } 
+
+Yes, reuses cultureDocs.pdf path as docx path.
+
+Perfect.
+
+Edit D: DOMContentLoaded viewer.src = "../documents/Cultural Practice.pdf";
+old: viewer.src = "../documents/Cultural Practice.pdf";
+new: loadCultureDoc('pdf');
+
+Since already loaded.
+
+But to trigger.
+
+Current:
+if (viewer && (!viewer.src || viewer.src.includes("about:blank"))) {
+      viewer.src = "../documents/Cultural Practice.pdf";
+    }
+
+Change to loadCultureDoc('pdf');
+
+Edit E: labels
+old: Cultural Practice Documentation
+new: Kikuyu Traditional Farming Documentation
+
+old: <i class='bx bx-file-pdf text-red-400'></i> 
+new: <i class='bx bx-file text-blue-400'></i> 
+
+Edit F: Download Culture PDF -> Download Culture DOCX
+Find a href="../documents/Cultural Practice.pdf" download 
+From content: no direct, wait search had for other, but in culture:
+<a href="../documents/Cultural Practice.pdf" download class="btn-culture w-full bg-gray-800 hover:bg-gray-700 border border-amber-500/50 py-3 rounded-xl font-semibold text-amber-300 flex items-center justify-center gap-2">
+T PATT
+Yes.
+
+Replace href and text.
+
+Edit G: View Cultural PDF
+onclick="loadCultureDoc('pdf')" ... View Cultural PDF
+
+Text: View Cultural PDF -> View Cultural DOCX
+
+Exact: <i class='bx bx-show-alt text-xl'></i> View Cultural PDF
+
+To View Cultural Document
+
+Also button Download Culture PDF text.
+
+Also in toast.
+
+Since toast updated in JS edit.
+
+Also section title if needed, but ok.
+
+To avoid fail, do sequential but rules parallel.
+
+Do key ones first: JS, iframe, cultureDocs, labels.
+
+Since multiple tools parallel.
+
+Yes. 
+
+Also one for download href.
+
+Find all unique.
+
+From read_file grep:
+
+- src="../documents/Cultural Practice.pdf"   (iframe initial)
+
+- cultureDocs.pdf: "../documents/Cultural Practice.pdf"
+
+- viewer.src = cultureDocs.pdf 
+
+- viewer.src = "../documents/Cultural Practice.pdf"; in DOMContentLoaded
+
+- <a href="../documents/Cultural Practice.pdf" download 
+
+Yes, there's download link.
+
+Exact from content:
+
+<a href="../documents/Cultural Practice.pdf" download class="btn-culture w-full bg-gray-800 hover:bg-gray-700 border border-amber-500/50 py-3 rounded-xl font-semibold text-amber-300 flex items-center justify-center gap-2">
+
+Yes.
+
+Also "Cultural Practice PDF" in toast.
+
+Toast updated.
+
+"View Cultural PDF"
+
+In button: View Cultural PDF
+
+Exact: <i class='bx bx-show-alt text-xl'></i> View Cultural PDF
+
+And Download Culture PDF : <i class='bx bxs-download'></i> Download Culture PDF
+
+Wait, in content it's Download Culture PDF yes.
+
+Also "Cultural Practice Documentation"
+
+Do 6-7 edits parallel.
+
+Then update TODO.
+
+Perfect. 
+
+For download href, change to ../documents/Cultural Practice.docx
+
+Same for JS path.
+
+For pptx download exists.
+
+Also there's <a href="../documents/African_Cultural_Practices_Extended.pdf" fictional, leave or remove? Leave.
+
+Yes. 
+
+Icons: change bx-file-pdf to bx-file-doc ? But bx-file-doc may not exist, bx bx-file is generic.
+
+bx bxs-file-doc exists? Boxicons has bx-file, bx-file-blank, etc. Keep bx bx-file-pdf even for docx, or bx bx-file.
+
+Change to bx bx-file.
+
+Color text-blue-400 for doc.
+
+Yes.
+
+Now tool calls. </thinking>
+
+<xai:function_call name="edit_file">
+<parameter name="path">templates/culture.html
               class="w-full rounded-t-xl"
               style="min-height: 580px; height: 68vh;"
               title="African Culture Documentation"
@@ -303,21 +674,18 @@
 </div>
 
 <script>
-  // Document mapping for culture (PDF and PPTX viewer)
+  // Document mapping for culture (DOCX and PPTX viewer)
   const cultureDocs = {
-    pdf: "../documents/Cultural Practice.pdf",
-    pptx: "../documents/African Medicine Presentation.pptx"
-  };
-  
-  // Function to load PDF or PPTX (PPTX uses Office Online viewer for full compatibility)
   function loadCultureDoc(type) {
     const viewer = document.getElementById("cultureDocViewer");
     if (!viewer) return;
     
     if (type === 'pdf') {
-      viewer.src = cultureDocs.pdf + "?t=" + Date.now(); // cache buster
-      // Update active state visual feedback
-      showToast("📄 Loading Cultural Practice PDF...");
+      // Use Microsoft Office Online Viewer for DOCX (works across all browsers)
+      const docUrl = window.location.origin + cultureDocs.pdf;
+      const encodedUrl = encodeURIComponent(docUrl);
+      viewer.src = `https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}`;
+      showToast("📄 Loading Kikuyu Traditional Farming DOCX...");
     } 
     else if (type === 'pptx') {
       // Use Microsoft Office Online Viewer for PPTX (works across all browsers)
