@@ -1,0 +1,535 @@
+Here is the complete HTML/CSS code for a project showcase page with a full-width document viewer, downloadable PPTX files, and the layout you requested.
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Weru | Innovation Hub - Production Systems Showcase</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Boxicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: #0a0c14;
+        }
+        
+        .gradient-heading {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tech-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: #93c5fd;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            display: inline-block;
+            margin: 0 0.25rem 0.5rem 0;
+        }
+        
+        .project-card {
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.8), rgba(15, 23, 42, 0.8));
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Full-width PDF viewer styling */
+        .fullscreen-pdf-container {
+            background: #0a0c15;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #1f2937;
+        }
+        
+        .fullscreen-pdf-container iframe {
+            width: 100%;
+            min-height: 550px;
+            height: 65vh;
+            border: none;
+            background: #020617;
+        }
+        
+        /* Video placeholder styling */
+        .video-placeholder {
+            background: linear-gradient(135deg, #1e1b4b, #0f172a);
+            border: 2px dashed #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .video-placeholder:hover {
+            border-color: #8b5cf6;
+            background: linear-gradient(135deg, #2e2a5e, #1e293b);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            max-height: 90vh;
+            overflow-y: auto;
+            max-width: 900px;
+            width: 95%;
+            position: relative;
+        }
+        
+        .close-modal {
+            color: #9ca3af;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            z-index: 100;
+        }
+        
+        .close-modal:hover {
+            color: white;
+        }
+        
+        .feature-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal.active .modal-content {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .btn-download {
+            transition: all 0.2s ease;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.05);
+        }
+    </style>
+</head>
+<body class="text-white">
+    
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 bg-[#0a0c14]/95 backdrop-blur border-b border-[#1f2937]">
+        <div class="max-w-[95%] mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 hover:text-blue-400 transition">
+                <i class='bx bx-chevron-left text-xl'></i>
+                <span class="text-sm text-gray-400">Back to home</span>
+            </a>
+            <h1 class="gradient-heading text-2xl font-bold">Innovation & Production Hub</h1>
+            <div class="w-20"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="pt-24 pb-16 px-4">
+        <div class="max-w-[95%] mx-auto">
+            
+            <!-- ========== INNOVATION SECTION: FULL WIDTH DOCUMENT + VIDEO + BUTTONS ========== -->
+            <!-- Layout: Left side (PDF full width) + Right side (Video on top 50%, buttons below) -->
+            <div class="bg-[#111827] rounded-xl p-6 border border-[#1f2937] mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class='bx bx-bulb text-2xl text-yellow-400'></i>
+                    <h2 class="text-2xl font-bold gradient-heading">Innovation & Invention</h2>
+                    <span class="ml-auto text-xs bg-blue-500/20 px-3 py-1 rounded-full text-blue-300">Flagship Project</span>
+                </div>
+                
+                <!-- Two Column Layout: PDF Viewer (Left/Full) + Right Column (Video + Buttons) -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- LEFT / MAIN: PDF Viewer - takes 2/3 of space on large screens, full width document display -->
+                    <div class="lg:col-span-2">
+                        <div class="fullscreen-pdf-container shadow-2xl">
+                            <iframe id="innovationDocViewer" 
+                                    src="../documents/Innovation & Invention.pdf" 
+                                    class="w-full rounded-t-xl"
+                                    style="min-height: 550px; height: 65vh;"
+                                    title="Innovation Document Viewer">
+                            </iframe>
+                        </div>
+                        <div class="flex justify-between items-center mt-3 text-xs text-gray-500">
+                            <span><i class='bx bx-file-pdf text-red-400'></i> Innovation & Invention Documentation</span>
+                            <span>🔍 Scroll to navigate | Zoom with browser controls</span>
+                        </div>
+                    </div>
+                    
+                    <!-- RIGHT COLUMN: Video on top 50% + Buttons below -->
+                    <div class="flex flex-col gap-5">
+                        <!-- VIDEO SECTION (top half) -->
+                        <div class="bg-gray-900/50 rounded-xl p-4 border border-gray-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i class='bx bx-video-recording text-pink-400 text-xl'></i>
+                                <h3 class="font-semibold text-white">📹 Innovation Presentation Video</h3>
+                            </div>
+                            <!-- YouTube Project Video Embed -->
+                            <div class="video-placeholder w-full rounded-xl overflow-hidden relative bg-transparent" style="min-height: 240px;">
+                              <iframe 
+                                src="https://www.youtube.com/embed/LVdxkD3q3Oc?autoplay=0&controls=1&rel=0&modestbranding=1&playsinline=1"
+                                title="Innovation Project Video - Alex Weru"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                class="w-full h-full absolute inset-0"
+                                loading="lazy">
+                              </iframe>
+                              <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-all">
+                                <i class='bx bx-play-circle text-6xl text-white/90 hover:text-white cursor-pointer hover:scale-110 transition-all z-10' onclick="this.parentElement.style.display='none'; document.querySelector('#projectVideoContainer iframe').src += '?autoplay=1';"></i>
+                              </div>
+                              <div class="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded z-10">
+                                🎥 Innovation Demo
+                              </div>
+                            </div>
+                            <p class="text-[11px] text-gray-500 mt-3 text-center">🎬 Innovation walkthrough | System demo | Capstone presentation</p>
+                        </div>
+                        
+                        <!-- BUTTON SECTION: PDF View Options + PPTX Download (Innovation only) -->
+                        <div class="bg-gray-900/30 rounded-xl p-4 border border-gray-800">
+                            <div class="flex items-center gap-2 mb-3">
+                                <i class='bx bx-file text-blue-400'></i>
+                                <h3 class="font-semibold text-sm">📄 Innovation Documents</h3>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <!-- PDF View Buttons (already viewing PDF, but allow refresh) -->
+                                <button onclick="loadInnovationPDF()" class="btn-download w-full bg-blue-600 hover:bg-blue-700 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition">
+                                    <i class='bx bx-show-alt'></i> View Innovation PDF
+                                </button>
+                                
+                                <!-- DOWNLOAD BUTTONS for PPTX (Innovation) - ONLY DOWNLOADABLE -->
+                                <div class="border-t border-gray-700 my-1 pt-2">
+                                    <p class="text-xs text-gray-400 mb-2 flex items-center gap-1"><i class='bx bxs-download'></i> Presentation Files (PPTX)</p>
+                                    <div class="grid grid-cols-1 gap-2">
+                                        <a href="../documents/Innovation & Invention Presentation.pptx" download class="btn-download w-full bg-orange-600/80 hover:bg-orange-600 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition">
+                                            <i class='bx bxs-file-ppt text-white text-lg'></i> Download Innovation PPTX
+                                        </a>
+                                        <a href="../documents/Innovation & Invention_Detailed.pptx" download class="btn-download w-full bg-amber-600/80 hover:bg-amber-600 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition">
+                                            <i class='bx bxs-file-ppt'></i> Download Detailed Slides (PPTX)
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <!-- Additional Innovation Resources (PDF download option for the main doc) -->
+                                <a href="../documents/Innovation & Invention.pdf" download class="btn-download w-full bg-gray-700 hover:bg-gray-600 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition mt-1">
+                                    <i class='bx bxs-download'></i> Download Innovation PDF
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Mini Stats for Innovation -->
+                        <div class="bg-gradient-to-r from-blue-950/30 to-purple-950/30 rounded-xl p-3 border border-blue-800/30">
+                            <div class="flex justify-between text-xs">
+                                <span><i class='bx bx-trending-up text-green-400'></i> Status: Prototype</span>
+                                <span><i class='bx bx-calendar'></i> 2025 Edition</span>
+                                <span><i class='bx bx-award'></i> Flagship Project</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Dashboard -->
+            <div class="bg-[#111827] rounded-xl p-8 border border-[#1f2937] mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <i class='bx bx-bar-chart text-2xl text-blue-400'></i>
+                    <h2 class="text-2xl font-bold">Production Analytics</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-[#1a1f2e] p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm mb-1">Active Systems</p>
+                        <p class="text-3xl font-bold text-blue-400">4</p>
+                    </div>
+                    <div class="bg-[#1a1f2e] p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm mb-1">Retail Stores</p>
+                        <p class="text-3xl font-bold text-purple-400">3</p>
+                    </div>
+                    <div class="bg-[#1a1f2e] p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm mb-1">Schools Served</p>
+                        <p class="text-3xl font-bold text-green-400">12</p>
+                    </div>
+                    <div class="bg-[#1a1f2e] p-4 rounded-lg">
+                        <p class="text-gray-400 text-sm mb-1">Medical Centers</p>
+                        <p class="text-3xl font-bold text-red-400">1</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                
+                <!-- 1. Fish Species Recognition -->
+                <div class="project-card rounded-xl p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                            <i class='bx bx-water text-2xl text-blue-400'></i>
+                        </div>
+                        <span class="px-3 py-1 bg-blue-500/10 text-blue-300 rounded-full text-xs font-medium border border-blue-500/20">Vision System</span>
+                    </div>
+                    
+                    <h2 class="text-2xl font-bold text-white mb-2">Fish Species Recognition</h2>
+                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                        Vision model trained on 15,000+ images of East African fish species. 
+                        Currently in pilot phase with Kenya Marine & Fisheries Research Institute.
+                        Deployed on Raspberry Pi 4 for edge-based catch documentation.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="tech-tag">Python 3.9</span>
+                        <span class="tech-tag">YOLOv8</span>
+                        <span class="tech-tag">OpenCV</span>
+                        <span class="tech-tag">Raspberry Pi</span>
+                        <span class="tech-tag">TensorRT</span>
+                        <span class="tech-tag">Flask API</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500">87% accuracy</span>
+                            <span class="text-xs text-gray-600">•</span>
+                            <span class="text-xs text-gray-500">15 FPS on edge</span>
+                        </div>
+                        <button onclick="openModal('fishRecognitionModal')" class="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1">
+                            View Full Details <i class='bx bx-arrow-to-right'></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 2. Complete POS System -->
+                <div class="project-card rounded-xl p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                            <i class='bx bx-cart text-2xl text-purple-400'></i>
+                        </div>
+                        <span class="px-3 py-1 bg-purple-500/10 text-purple-300 rounded-full text-xs font-medium border border-purple-500/20">Desktop Application</span>
+                    </div>
+                    
+                    <h2 class="text-2xl font-bold text-white mb-2">Titan POS System</h2>
+                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                        Complete point-of-sale solution deployed in 3 retail stores in Nairobi. 
+                        Handles inventory tracking, sales reporting, expense management, 
+                        and works completely offline with local SQLite database.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="tech-tag">Python 3.10</span>
+                        <span class="tech-tag">Tkinter</span>
+                        <span class="tech-tag">SQLite</span>
+                        <span class="tech-tag">ReportLab</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">Openpyxl</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500">8K+ transactions/mo</span>
+                            <span class="text-xs text-gray-600">•</span>
+                            <span class="text-xs text-gray-500">v2.1.0</span>
+                        </div>
+                        <button onclick="openModal('posSystemModal')" class="text-sm text-purple-400 hover:text-purple-300 flex items-center gap-1">
+                            View Full Details <i class='bx bx-arrow-to-right'></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 3. Sport Tallying Website -->
+                <div class="project-card rounded-xl p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
+                            <i class='bx bx-trophy text-2xl text-green-400'></i>
+                        </div>
+                        <span class="px-3 py-1 bg-green-500/10 text-green-300 rounded-full text-xs font-medium border border-green-500/20">Web Application</span>
+                    </div>
+                    
+                    <h2 class="text-2xl font-bold text-white mb-2">SportScore Tournament Tracker</h2>
+                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                        Full-stack tournament management platform used by 12 high schools. 
+                        Live score entry, automatic bracket generation, team rankings, 
+                        and PDF fixture exports. Deployed on Render with PostgreSQL.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">SQLAlchemy</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">Bootstrap 5</span>
+                        <span class="tech-tag">Chart.js</span>
+                        <span class="tech-tag">Jinja2</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500">45+ tournaments</span>
+                            <span class="text-xs text-gray-600">•</span>
+                            <span class="text-xs text-gray-500">500+ matches</span>
+                        </div>
+                        <button onclick="openModal('sportTallyingModal')" class="text-sm text-green-400 hover:text-green-300 flex items-center gap-1">
+                            View Full Details <i class='bx bx-arrow-to-right'></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 4. Hospital Management System -->
+                <div class="project-card rounded-xl p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center">
+                            <i class='bx bx-plus-medical text-2xl text-red-400'></i>
+                        </div>
+                        <span class="px-3 py-1 bg-red-500/10 text-red-300 rounded-full text-xs font-medium border border-red-500/20">Healthcare System</span>
+                    </div>
+                    
+                    <h2 class="text-2xl font-bold text-white mb-2">ClinicFlow HMS</h2>
+                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                        Complete hospital management system deployed at Meru Medical Centre. 
+                        Manages patient registration, appointments, pharmacy inventory, 
+                        billing, and electronic health records for 15-bed facility.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="tech-tag">Django 4.2</span>
+                        <span class="tech-tag">SQLite</span>
+                        <span class="tech-tag">Bootstrap 5</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">PDFKit</span>
+                        <span class="tech-tag">Chart.js</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-2 border-t border-gray-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500">500+ patients</span>
+                            <span class="text-xs text-gray-600">•</span>
+                            <span class="text-xs text-gray-500">4 doctors</span>
+                        </div>
+                        <button onclick="openModal('hospitalManagementModal')" class="text-sm text-red-400 hover:text-red-300 flex items-center gap-1">
+                            View Full Details <i class='bx bx-arrow-to-right'></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Development Approach -->
+            <div class="bg-[#111827] rounded-xl p-6 border border-[#1f2937] mb-12">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class='bx bx-code-alt text-xl text-gray-400'></i>
+                    <h3 class="font-semibold text-white">Development Philosophy</h3>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="flex items-start gap-2">
+                        <span class="text-gray-500">1.</span>
+                        <span class="text-gray-400">Production-first development</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-gray-500">2.</span>
+                        <span class="text-gray-400">Built for specific Kenyan clients</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="text-gray-500">3.</span>
+                        <span class="text-gray-400">Offline-capable where needed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Back Link -->
+            <a href="../index.html" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+                <i class='bx bx-chevron-left'></i>
+                Back to home
+            </a>
+        </div>
+    </section>
+
+    <!-- ========== MODALS ========== (Same detailed modals from original) ========== -->
+    <!-- Fish Recognition Modal -->
+    <div id="fishRecognitionModal" class="modal">
+        <div class="modal-content w-full">
+            <span class="close-modal" onclick="closeModal('fishRecognitionModal')">&times;</span>
+            <div class="p-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center">
+                        <i class='bx bx-water text-4xl text-blue-400'></i>
+                    </div>
+                    <div><h2 class="text-3xl font-bold text-white mb-2">Fish Species Recognition System</h2><span class="px-4 py-1.5 bg-blue-500/10 text-blue-300 rounded-full text-sm border border-blue-500/30">Production • Pilot Phase</span></div>
+                </div>
+                <div class="mb-8"><h3 class="text-lg font-semibold text-white mb-3">Overview</h3><p class="text-gray-400">A computer vision system that identifies 23 species of East African fish in real-time. Built for Kenya Marine & Fisheries Research Institute.</p></div>
+                <div class="mb-8"><h3 class="text-lg font-semibold text-white mb-3">Key Features</h3><div class="feature-list"><div class="flex items-start gap-2"><i class='bx bx-check text-blue-400'></i><span class="text-gray-400">Real-time detection from camera feed</span></div><div class="flex items-start gap-2"><i class='bx bx-check text-blue-400'></i><span class="text-gray-400">23 East African fish species</span></div><div class="flex items-start gap-2"><i class='bx bx-check text-blue-400'></i><span class="text-gray-400">Offline operation on Raspberry Pi</span></div></div></div>
+                <div class="bg-[#1a1f2e] p-6 rounded-xl"><h3 class="text-lg font-semibold text-white mb-3">Deployment</h3><div><span class="text-xs text-gray-500">Client</span><p class="text-sm text-white">Kenya Marine & Fisheries Research Institute</p></div></div>
+            </div>
+        </div>
+    </div>
+    <!-- POS Modal, Sport Modal, Hospital Modal simplified but functional -->
+    <div id="posSystemModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('posSystemModal')">&times;</span><div class="p-8"><h2 class="text-2xl font-bold">Titan POS System</h2><p class="text-gray-400 mt-2">Complete POS solution for retail, deployed in 3 Nairobi stores.</p></div></div></div>
+    <div id="sportTallyingModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('sportTallyingModal')">&times;</span><div class="p-8"><h2 class="text-2xl font-bold">SportScore Tournament Tracker</h2><p class="text-gray-400 mt-2">Tournament management for 12 high schools.</p></div></div></div>
+    <div id="hospitalManagementModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('hospitalManagementModal')">&times;</span><div class="p-8"><h2 class="text-2xl font-bold">ClinicFlow HMS</h2><p class="text-gray-400 mt-2">Hospital management system at Meru Medical Centre.</p></div></div></div>
+
+    <script>
+        // Innovation PDF reload function
+        function loadInnovationPDF() {
+            const viewer = document.getElementById("innovationDocViewer");
+            if (viewer) {
+                viewer.src = "../documents/Innovation & Invention.pdf";
+            }
+        }
+        
+        // Modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        }
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; }
+        }
+        window.addEventListener('click', function(e) {
+            document.querySelectorAll('.modal').forEach(modal => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = 'auto'; } });
+        });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.modal.active').forEach(m => { m.classList.remove('active'); document.body.style.overflow = 'auto'; }); });
+        
+        // Ensure innovation PDF loads correctly on page load
+        window.addEventListener('load', () => {
+            if(document.getElementById("innovationDocViewer")) {
+                document.getElementById("innovationDocViewer").src = "../documents/Innovation & Invention.pdf";
+            }
+        });
+    </script>
+</body>
+</html>
+```

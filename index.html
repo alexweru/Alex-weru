@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Weru | AI Architect & Data Scientist</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Three.js for 3D Planets -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        * { font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+
+        .cosmic-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6, #2dd4bf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: cosmicFlow 12s ease infinite;
+        }
+
+        @keyframes cosmicFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .stars, .twinkling, .clouds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stars {
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48Y2lyY2xlIGN4PSI2IiBjeT0iMTQiIHI9IjEiIGZpbGw9IndoaXRlIiAvPjxjaXJjbGUgY3g9IjE2MCIgY3k9IjYwIiByPSIxLjUiIGZpbGw9IndoaXRlIiAvPjxjaXJjbGUgY3g9IjQwIiBjeT0iMjAwIiByPSIxLjIiIGZpbGw9IndoaXRlIiAvPjxjaXJjbGUgY3g9IjIwMCIgY3k9IjE4MCIgcj0iMSIgZmlsbD0id2hpdGUiIC8+PGNpcmNsZSBjeD0iMjgwIiBjeT0iNTAiIHI9IjEuOCIgZmlsbD0id2hpdGUiIC8+PC9zdmc+');
+            background-size: 200px 200px;
+            animation: starsAnimation 200s linear infinite;
+            opacity: 0.8;
+        }
+
+        .twinkling {
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIyIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjgiIC8+PGNpcmNsZSBjeD0iMjAwIiBjeT0iMTUwIiByPSIxLjgiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuNyIgLz48L3N2Zz4=');
+            background-size: 300px 300px;
+            animation: twinkleAnimation 4s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes starsAnimation {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-2000px); }
+        }
+
+        @keyframes twinkleAnimation {
+            0% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+            100% { opacity: 0.3; }
+        }
+
+        #planet-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .cosmic-card {
+            background: rgba(17, 25, 40, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            border-radius: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .cosmic-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 20px 40px -12px rgba(0, 100, 255, 0.3);
+            background: rgba(25, 35, 55, 0.85);
+        }
+
+        .profile-wrapper {
+            width: 60%;
+            max-width: 420px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid rgba(59,130,246,0.5);
+            box-shadow: 0 0 30px rgba(59,130,246,0.3),
+                        0 0 60px rgba(139,92,246,0.2),
+                        0 0 100px rgba(6,182,212,0.1);
+            animation: aiPulse 4s ease-in-out infinite;
+            position: relative;
+            z-index: 20;
+        }
+
+        @keyframes aiPulse {
+            0% { box-shadow: 0 0 30px rgba(59,130,246,0.3), 0 0 60px rgba(139,92,246,0.2), 0 0 100px rgba(6,182,212,0.1); }
+            50% { box-shadow: 0 0 40px rgba(59,130,246,0.5), 0 0 80px rgba(139,92,246,0.3), 0 0 120px rgba(6,182,212,0.2); }
+            100% { box-shadow: 0 0 30px rgba(59,130,246,0.3), 0 0 60px rgba(139,92,246,0.2), 0 0 100px rgba(6,182,212,0.1); }
+        }
+
+        .profile-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ai-badge {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 20px rgba(59,130,246,0.5);
+            animation: badgeGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+            50% { box-shadow: 0 0 30px rgba(139,92,246,0.5); }
+        }
+
+        .cyber-button {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4);
+            background-size: 200% 200%;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+            position: relative;
+            z-index: 20;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .cyber-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(59,130,246,0.4);
+        }
+
+        .metric-card {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            transition: 0.3s;
+        }
+
+        .metric-card:hover {
+            border-color: rgba(59, 130, 246, 0.6);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 30;
+        }
+
+        .neural-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(59,130,246,0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(139,92,246,0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="planet-container"></div>
+
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="neural-bg"></div>
+
+    <div class="content-wrapper relative z-30">
+
+        <header class="fixed top-0 w-full z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800/50">
+            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">AW</span>
+                    </div>
+                    <span class="text-xl font-bold cosmic-text">Alex Weru</span>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-blue-400 transition-colors">Home</a>
+                    <a href="templates/resume.html" class="text-gray-300 hover:text-blue-400 transition-colors">Resume</a>
+                    <a href="templates/project.html" class="text-gray-300 hover:text-blue-400 transition-colors">Projects</a>
+                    <a href="templates/culture.html" class="text-gray-300 hover:text-blue-400 transition-colors">Culture</a>
+                    <a href="templates/contact.html" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a>
+<a href="templates/challenges.html" class="text-gray-300 hover:text-blue-400 transition-colors">Challenges</a>
+                </nav>
+
+                <a href="templates/contact.html" class="cyber-button hidden md:block">Contact</a>
+            </div>
+        </header>
+
+        <section class="min-h-screen pt-32 pb-20">
+            <div class="w-[87%] mx-auto px-6 flex flex-col lg:flex-row items-stretch gap-16">
+
+                <div class="lg:w-2/5 flex flex-col items-center lg:items-start text-center lg:text-left">
+
+                    <div class="profile-wrapper mb-8">
+                        <img id="profileImage" src="assets/images/profile1.jpg" alt="Alex Weru">
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3 w-full mb-6">
+                        <div class="metric-card text-center">
+                            <i class='bx bx-chip text-blue-400 text-xl'></i>
+                            <div class="text-lg font-bold text-white mt-1">94%</div>
+                            <div class="text-xs text-gray-400">AI Accuracy</div>
+                        </div>
+                        <div class="metric-card text-center">
+                            <i class='bx bx-data text-purple-400 text-xl'></i>
+                            <div class="text-lg font-bold text-white mt-1">15K+</div>
+                            <div class="text-xs text-gray-400">Data Points</div>
+                        </div>
+                        <div class="metric-card text-center">
+                            <i class='bx bx-cloud text-cyan-400 text-xl'></i>
+                            <div class="text-lg font-bold text-white mt-1">24/7</div>
+                            <div class="text-xs text-gray-400">Deployment</div>
+                        </div>
+                    </div>
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-4 cosmic-text">
+                        Alex Weru
+                    </h1>
+
+                    <div class="space-y-2 mb-6">
+                        <p class="text-xl text-gray-300 flex items-center justify-center lg:justify-start gap-2">
+                            <i class='bx bx-brain text-blue-400'></i>
+                            AI Architect & Data Scientist
+                        </p>
+                        <p class="text-xl text-gray-300 flex items-center justify-center lg:justify-start gap-2">
+                            <i class='bx bx-line-chart text-green-400'></i>
+                            Computer Vision Specialist
+                        </p>
+                        <p class="text-xl text-gray-300 flex items-center justify-center lg:justify-start gap-2">
+                            <i class='bx bx-globe text-purple-400'></i>
+                            Tech x African Innovation
+                        </p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <a href="templates/resume.html" class="cyber-button">View Resume</a>
+                        <a href="templates/project.html" class="border border-blue-500 px-6 py-3 rounded-lg hover:bg-blue-500/10">
+                            Projects
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:w-3/5 w-full">
+                    <h2 class="text-6xl font-bold mb-6 cosmic-text">Portfolio</h2>
+                    <p class="text-gray-300 text-xl mb-10">
+                        A comprehensive academic and technical showcase
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <a href="templates/resume.html" class="cosmic-card p-6">
+                            <h3 class="text-xl font-bold mb-2">Autobiographical Essay</h3>
+                            <p class="text-gray-300">Personal academic and professional journey.</p>
+                        </a>
+
+                        <a href="templates/project.html" class="cosmic-card p-6">
+                            <h3 class="text-xl font-bold mb-2">IT Innovation</h3>
+                            <p class="text-gray-300">AI-powered agricultural solutions.</p>
+                        </a>
+
+                        <a href="templates/culture.html" class="cosmic-card p-6">
+                            <h3 class="text-xl font-bold mb-2">African Culture</h3>
+                            <p class="text-gray-300">Digital preservation and awareness.</p>
+                        </a>
+
+                        <a href="templates/contact.html" class="cosmic-card p-6">
+                            <h3 class="text-xl font-bold mb-2">Contact</h3>
+                            <p class="text-gray-300">Academic and professional contacts.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-gray-900/50 backdrop-blur border-t border-gray-800/50 py-12 relative z-40">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-blue-400 text-2xl transition-colors">
+                        <i class='bx bxl-github'></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 text-2xl transition-colors">
+                        <i class='bx bxl-linkedin'></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 text-2xl transition-colors">
+                        <i class='bx bxl-twitter'></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400 text-2xl transition-colors">
+                        <i class='bx bx-data'></i>
+                    </a>
+                </div>
+                <p class="text-gray-400">© 2024 Alex Weru — AI Research & Data Science</p>
+                <p class="text-gray-500 text-sm mt-2">Dedan Kimathi University of Technology • Computer Science</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function initPlanets() {
+            const container = document.getElementById('planet-container');
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x050510);
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 15;
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setClearColor(0x050510, 0);
+            container.appendChild(renderer.domElement);
+
+            const ambientLight = new THREE.AmbientLight(0x404060);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 3, 5);
+            scene.add(directionalLight);
+
+            const planets = [];
+            const palette = [
+                { color: 0x3b82f6, emissive: 0x1e3a8a },
+                { color: 0xa78bfa, emissive: 0x5b21b6 },
+                { color: 0x22c55e, emissive: 0x14532d },
+                { color: 0xf59e0b, emissive: 0x7c2d12 },
+                { color: 0xef4444, emissive: 0x7f1d1d },
+                { color: 0x06b6d4, emissive: 0x164e63 },
+                { color: 0xe879f9, emissive: 0x701a75 },
+                { color: 0x93c5fd, emissive: 0x1e3a8a },
+                { color: 0xf472b6, emissive: 0x831843 }
+            ];
+
+            const planetConfigs = [
+                { radius: 0.8, orbit: 3.5, angle: 0.2 },
+                { radius: 1.1, orbit: 5.5, angle: 1.1 },
+                { radius: 1.3, orbit: 7.5, angle: 2.0 },
+                { radius: 0.95, orbit: 9.5, angle: 2.8 },
+                { radius: 1.4, orbit: 11.5, angle: 3.6 },
+                { radius: 1.0, orbit: 13.5, angle: 4.4 },
+                { radius: 0.85, orbit: 15.5, angle: 5.2 },
+                { radius: 1.2, orbit: 17.5, angle: 6.0 },
+                { radius: 1.05, orbit: 19.5, angle: 6.8 }
+            ];
+
+            planetConfigs.forEach((config, index) => {
+                const theme = palette[index % palette.length];
+                const geometry = new THREE.SphereGeometry(config.radius, 48, 48);
+                const material = new THREE.MeshPhongMaterial({
+                    color: theme.color,
+                    emissive: theme.emissive,
+                    emissiveIntensity: 0.2,
+                    shininess: 30,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const mesh = new THREE.Mesh(geometry, material);
+                const x = Math.cos(config.angle) * config.orbit;
+                const z = Math.sin(config.angle) * config.orbit - 14;
+                mesh.position.set(x, (index % 2 === 0 ? 1 : -1.2), z);
+                mesh.userData = {
+                    rotX: 0.0004 + Math.random() * 0.0006,
+                    rotY: 0.0006 + Math.random() * 0.001,
+                    orbit: config.orbit,
+                    angle: config.angle,
+                    orbitSpeed: 0.0006 + Math.random() * 0.0005,
+                    baseY: (index % 2 === 0 ? 1 : -1.2),
+                    bobOffset: Math.random() * Math.PI * 2
+                };
+                scene.add(mesh);
+                planets.push(mesh);
+
+                if (index === 0) {
+                    const ringGeometry = new THREE.TorusGeometry(config.radius + 0.7, 0.18, 16, 100);
+                    const ringMaterial = new THREE.MeshPhongMaterial({
+                        color: 0x8b5cf6,
+                        emissive: 0x4c1d95,
+                        emissiveIntensity: 0.1,
+                        transparent: true,
+                        opacity: 0.4,
+                        side: THREE.DoubleSide
+                    });
+                    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+                    ring.rotation.x = Math.PI / 2;
+                    ring.rotation.z = 0.3;
+                    mesh.add(ring);
+                }
+            });
+
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsCount = 2000;
+            const starsPositions = new Float32Array(starsCount * 3);
+
+            for (let i = 0; i < starsCount * 3; i += 3) {
+                starsPositions[i] = (Math.random() - 0.5) * 200;
+                starsPositions[i+1] = (Math.random() - 0.5) * 200;
+                starsPositions[i+2] = (Math.random() - 0.5) * 200 - 50;
+            }
+
+            starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
+
+            const starsMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.15,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            const stars = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(stars);
+
+            const shootingStars = [];
+            let shootingStarTimer = 0;
+            const shootingStarInterval = 600;
+
+            function createShootingStar() {
+                const material = new THREE.LineBasicMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const geometry = new THREE.BufferGeometry().setFromPoints([
+                    new THREE.Vector3(),
+                    new THREE.Vector3()
+                ]);
+                const line = new THREE.Line(geometry, material);
+                const data = {
+                    velocity: new THREE.Vector3(),
+                    length: 1.6,
+                    life: 0,
+                    maxLife: 120
+                };
+                resetShootingStar(line, data);
+                scene.add(line);
+                shootingStars.push({ line, data });
+            }
+
+            function resetShootingStar(line, data) {
+                const startX = (Math.random() - 0.5) * 40;
+                const startY = 10 + Math.random() * 10;
+                const startZ = -10 - Math.random() * 20;
+
+                const velocityX = -0.25 - Math.random() * 0.5;
+                const velocityY = -0.15 - Math.random() * 0.3;
+
+                line.userData.start = new THREE.Vector3(startX, startY, startZ);
+                data.velocity.set(velocityX, velocityY, 0);
+                data.length = 1 + Math.random() * 1.8;
+                data.life = 0;
+                data.maxLife = 90 + Math.floor(Math.random() * 90);
+                updateShootingStar(line, data);
+            }
+
+            function updateShootingStar(line, data) {
+                const start = line.userData.start;
+                const end = start.clone().add(data.velocity.clone().normalize().multiplyScalar(data.length));
+                line.geometry.setFromPoints([start, end]);
+            }
+
+            function spawnShootingStars() {
+                const count = 1 + Math.floor(Math.random() * 3);
+                for (let i = 0; i < count; i++) {
+                    createShootingStar();
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                const now = performance.now() * 0.001;
+                planets.forEach((mesh) => {
+                    mesh.rotation.y += mesh.userData.rotY;
+                    mesh.rotation.x += mesh.userData.rotX;
+                    mesh.userData.angle += mesh.userData.orbitSpeed;
+                    mesh.position.x = Math.cos(mesh.userData.angle) * mesh.userData.orbit;
+                    mesh.position.z = Math.sin(mesh.userData.angle) * mesh.userData.orbit - 14;
+                    mesh.position.y = mesh.userData.baseY + Math.sin(now + mesh.userData.bobOffset) * 0.25;
+                });
+
+                stars.rotation.y += 0.0001;
+                stars.rotation.x += 0.00005;
+
+                shootingStarTimer += 1;
+                if (shootingStarTimer >= shootingStarInterval) {
+                    spawnShootingStars();
+                    shootingStarTimer = 0;
+                }
+
+                shootingStars.forEach(({ line, data }, index) => {
+                    line.userData.start.add(data.velocity);
+                    data.life += 1;
+                    updateShootingStar(line, data);
+
+                    if (
+                        data.life > data.maxLife ||
+                        line.userData.start.y < -12 ||
+                        line.userData.start.x < -30
+                    ) {
+                        scene.remove(line);
+                        shootingStars.splice(index, 1);
+                    }
+                });
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        window.addEventListener('load', initPlanets);
+    </script>
+
+    <script>
+        const images = [
+            "assets/images/profile1.jpg",
+            "assets/images/profile2.jpg",
+            "assets/images/logo.png"
+        ];
+
+        let index = 0;
+        const imgElement = document.getElementById("profileImage");
+
+        setInterval(() => {
+            imgElement.style.opacity = 0;
+            setTimeout(() => {
+                index = (index + 1) % images.length;
+                imgElement.src = images[index];
+                imgElement.style.opacity = 1;
+            }, 500);
+        }, 13000);
+    </script>
+</body>
+</html>

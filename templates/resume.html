@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Alex Weru | Document Center - Resume & Portfolio</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Icons (Boxicons + Font Awesome for extra icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+<style>
+  * {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass morphism card effect */
+  .glass-card {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 1.5rem;
+  }
+
+  /* PDF viewer container full immersive */
+  .pdf-fullscreen-container {
+    background: #0a0c15;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  iframe {
+    transition: opacity 0.2s ease;
+  }
+
+  /* Custom button styles with modern glow */
+  .btn-doc {
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .btn-doc:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.05);
+    box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.4);
+  }
+  .btn-doc:active {
+    transform: translateY(1px);
+  }
+
+  /* scrollbar customization */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1e293b;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 10px;
+  }
+
+  /* responsive iframe container */
+  @media (max-width: 1024px) {
+    .pdf-fullscreen-container {
+      border-radius: 1rem;
+    }
+  }
+</style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 text-white antialiased overflow-hidden">
+
+<!-- MODERN HEADER with blur and dynamic border -->
+<header class="fixed top-0 left-0 right-0 h-16 z-50 bg-gray-900/80 backdrop-blur-md border-b border-white/10 flex items-center px-6 shadow-sm">
+  <div class="flex items-center gap-2">
+    <i class='bx bx-file-find text-blue-400 text-2xl'></i>
+    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">Alex Weru</span>
+    <span class="text-xs ml-2 px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">Resume Hub</span>
+  </div>
+  <div class="ml-auto flex items-center gap-4">
+    <a href="../index.html" class="text-sm text-gray-300 hover:text-white transition flex items-center gap-1 bg-white/5 px-3 py-1.5 rounded-full hover:bg-white/10">
+      <i class='bx bx-home-alt text-sm'></i> Back Home
+    </a>
+    <div class="hidden sm:block text-xs text-gray-400 flex items-center gap-1">
+      <i class='bx bx-expand-alt'></i> <span>Fullscreen PDF ready</span>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN LAYOUT: FULL WIDTH PDF VIEWER + SIDEBAR CONTROLS (MOBILE OPTIMIZED) -->
+<main class="h-screen pt-16 flex flex-col lg:flex-row overflow-hidden">
+  
+  <!-- LEFT SIDEBAR: Document Controls & Download Actions (compact but complete) -->
+  <div class="w-full lg:w-80 xl:w-96 bg-gray-900/60 backdrop-blur-sm border-r border-gray-800/60 flex flex-col overflow-y-auto lg:overflow-y-auto p-5 gap-5 z-10 shadow-2xl lg:shadow-none">
+    
+    <!-- Profile quick intro -->
+    <div class="glass-card p-5 text-center">
+      <div class="w-14 h-14 mx-auto rounded-full bg-gradient-to-tr from-blue-500 to-purple-600 flex items-center justify-center shadow-lg mb-3">
+        <i class='bx bx-user text-3xl text-white'></i>
+      </div>
+      <h2 class="text-xl font-bold">Alex Weru</h2>
+      <p class="text-xs text-blue-300/80 mt-1">Multilingual Resume • Autobiography • Portfolio</p>
+      <div class="flex justify-center gap-2 mt-3 text-xs">
+        <span class="bg-gray-800/60 px-2 py-1 rounded-full">🇬🇧 EN</span>
+        <span class="bg-gray-800/60 px-2 py-1 rounded-full">🇰🇪 SW</span>
+        <span class="bg-gray-800/60 px-2 py-1 rounded-full">🌍 KIK</span>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS SECTION (PDFs + PPTX download only) -->
+    <div class="space-y-5">
+      <div class="flex items-center gap-2 border-b border-gray-700/70 pb-2">
+        <i class='bx bx-file text-blue-400 text-xl'></i>
+        <h3 class="font-semibold text-lg tracking-wide">📄 Resume Collection</h3>
+      </div>
+
+      <!-- PDF View & Download Grid -->
+      <div class="grid grid-cols-1 gap-3">
+        <!-- English PDF -->
+        <div class="flex flex-col sm:flex-row gap-2 items-stretch">
+          <button onclick="loadDoc('english')" class="btn-doc flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2 shadow-md">
+            <i class='bx bx-show-alt text-lg'></i> View English
+          </button>
+          <a href="../documents/englishresume.pdf" download class="btn-doc flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2">
+            <i class='bx bxs-download'></i> Download PDF
+          </a>
+        </div>
+        <!-- Swahili PDF -->
+        <div class="flex flex-col sm:flex-row gap-2 items-stretch">
+          <button onclick="loadDoc('swahili')" class="btn-doc flex-1 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2">
+            <i class='bx bx-show-alt'></i> View Swahili
+          </button>
+          <a href="../documents/swahiliresume.pdf" download class="btn-doc flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2">
+            <i class='bx bxs-download'></i> Download PDF
+          </a>
+        </div>
+        <!-- Kikuyu PDF -->
+        <div class="flex flex-col sm:flex-row gap-2 items-stretch">
+          <button onclick="loadDoc('kikuyu')" class="btn-doc flex-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2">
+            <i class='bx bx-show-alt'></i> View Kikuyu
+          </button>
+          <a href="../documents/kikuyuresume.pdf" download class="btn-doc flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2">
+            <i class='bx bxs-download'></i> Download PDF
+          </a>
+        </div>
+      </div>
+
+      <!-- Autobiography & About PDF Section -->
+      <div class="pt-2">
+        <div class="flex items-center gap-2 border-b border-gray-700/70 pb-2 mt-2">
+          <i class='bx bx-book-open text-purple-400 text-xl'></i>
+          <h3 class="font-semibold text-md">📖 Extended Bio</h3>
+        </div>
+        <div class="grid grid-cols-1 gap-3 mt-3">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button onclick="loadDoc('autobiography')" class="btn-doc flex-1 bg-gradient-to-r from-purple-600 to-fuchsia-700 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2">
+              <i class='bx bx-book-heart'></i> View Autobiography
+            </button>
+            <a href="../documents/AUTOBIOGRAPHY.pdf" download class="btn-doc flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl py-2.5 px-3 text-sm flex items-center justify-center gap-2">
+              <i class='bx bxs-download'></i> Download PDF
+            </a>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button onclick="loadDoc('about')" class="btn-doc flex-1 bg-gradient-to-r from-pink-600 to-rose-700 rounded-xl py-2.5 px-3 font-semibold text-sm flex items-center justify-center gap-2">
+              <i class='bx bx-user-circle'></i> View Who is Alex
+            </button>
+            <a href="../documents/whoisalex.pdf" download class="btn-doc flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl py-2.5 px-3 text-sm flex items-center justify-center gap-2">
+              <i class='bx bxs-download'></i> Download Who is Alex PDF
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PPTX SECTION (ONLY DOWNLOAD - no view option) -->
+      <div class="pt-2 mt-1">
+        <div class="flex items-center gap-2 border-b border-gray-700/70 pb-2">
+          <i class='bx bxs-presentation text-amber-400 text-xl'></i>
+          <h3 class="font-semibold text-md">📽️ Presentations (PPTX)</h3>
+          <span class="text-[10px] bg-gray-800 px-2 py-0.5 rounded-full">Download only</span>
+        </div>
+        <div class="grid grid-cols-1 gap-2 mt-3">
+          <a href="../documents/Autobiography Presentation.pptx" download class="btn-doc bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-xl py-2.5 px-3 text-sm flex items-center justify-center gap-3 transition">
+            <i class='bx bxs-file-ppt text-red-400 text-xl'></i> <span>Download About Me Presentation (PPTX)</span> <i class='bx bxs-download ml-auto'></i>
+          </a>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-3 text-center flex items-center justify-center gap-1"><i class='bx bx-info-circle'></i> PPTX files are available for download only — click to save to your device.</p>
+      </div>
+      
+      
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE: FULL SCREEN PDF VIEWER (takes all remaining width, fully visible) -->
+  <div class="flex-1 flex flex-col items-center justify-start p-4 lg:p-5 overflow-hidden bg-slate-950/40">
+    <div class="w-full h-full flex flex-col max-w-[1600px] mx-auto">
+      <!-- PDF Viewer Title bar with active doc indicator -->
+      <div class="flex items-center justify-between mb-3 px-2">
+        <div class="flex items-center gap-2 text-sm bg-gray-800/50 rounded-full py-1 px-3 backdrop-blur-sm">
+          <i class='bx bx-file-pdf text-red-400'></i>
+          <span id="currentDocLabel" class="font-medium text-gray-200">English Resume</span>
+          <span class="text-[10px] text-blue-300">• fully responsive</span>
+        </div>
+        <button id="fullscreenBtn" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-2 transition text-sm flex items-center gap-1 border border-gray-700">
+          <i class='bx bx-expand-alt'></i> <span class="hidden sm:inline">Fullscreen</span>
+        </button>
+      </div>
+      
+      <!-- PDF Viewer container: takes almost entire height, full width, immersive -->
+      <div class="pdf-fullscreen-container flex-1 w-full bg-black/90 rounded-2xl shadow-2xl border border-gray-700/50 relative overflow-hidden">
+        <iframe
+          id="docViewer"
+          src="../documents/englishresume.pdf"
+          class="w-full h-full border-0 bg-gray-900"
+          title="PDF Document Viewer"
+          loading="eager"
+          style="min-height: 500px;">
+        </iframe>
+      </div>
+      <!-- subtle helper note -->
+      <div class="text-center text-[11px] text-gray-500 mt-3 flex justify-center gap-3">
+        <span><i class='bx bx-mouse'></i> Scroll inside PDF</span>
+        <span><i class='bx bx-zoom-in'></i> Zoom with browser</span>
+        <span><i class='bx bx-download'></i> Use sidebar to download</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Document mapping with display names for better UX
+  const docs = {
+    english: { src: "../documents/englishresume.pdf", label: "🇬🇧 English Resume" },
+    swahili: { src: "../documents/swahiliresume.pdf", label: "🇰🇪 Swahili Resume" },
+    kikuyu: { src: "../documents/kikuyuresume.pdf", label: "🌍 Kikuyu Resume" },
+    autobiography: { src: "../documents/AUTOBIOGRAPHY.pdf", label: "📖 Autobiography" },
+    about: { src: "../documents/whoisalex.pdf", label: "👤 Who is Alex? (About)" }
+  };
+
+  // Fallback optional: ensure that if any pdf path fails we show a friendly message, but it will work as intended
+  const viewer = document.getElementById("docViewer");
+  const currentLabelSpan = document.getElementById("currentDocLabel");
+
+  function loadDoc(type) {
+    if (docs[type]) {
+      // Force iframe reload to avoid cache issues but keep smooth
+      const newSrc = docs[type].src;
+      // simple check if same src, still reloads to ensure fresh
+      viewer.src = newSrc;
+      if (currentLabelSpan) {
+        currentLabelSpan.innerText = docs[type].label;
+      }
+    } else {
+      console.warn("Document type not found:", type);
+    }
+  }
+
+  // Fullscreen mode for PDF viewer container - enhance visibility, whole iframe fullscreen
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  const pdfContainer = document.querySelector(".pdf-fullscreen-container");
+
+  function toggleFullscreen() {
+    if (!pdfContainer) return;
+    if (!document.fullscreenElement) {
+      pdfContainer.requestFullscreen().catch(err => {
+        console.warn(`Fullscreen error: ${err.message}`);
+        // alternative: use iframe fullscreen? but container approach is nicer
+        alert("Press F11 for fullscreen or allow fullscreen permissions");
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener("click", toggleFullscreen);
+  }
+
+  // Optional: Add keyboard shortcut 'F' for fullscreen toggle on PDF area
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "f" || e.key === "F") {
+      if (document.activeElement?.tagName !== "INPUT" && document.activeElement?.tagName !== "TEXTAREA") {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    }
+  });
+
+  // Handle fullscreen change events to maybe update button icon
+  function updateFullscreenIcon() {
+    if (fullscreenBtn) {
+      if (document.fullscreenElement) {
+        fullscreenBtn.innerHTML = '<i class="bx bx-compress-alt"></i> <span class="hidden sm:inline">Exit</span>';
+      } else {
+        fullscreenBtn.innerHTML = '<i class="bx bx-expand-alt"></i> <span class="hidden sm:inline">Fullscreen</span>';
+      }
+    }
+  }
+  document.addEventListener("fullscreenchange", updateFullscreenIcon);
+  document.addEventListener("webkitfullscreenchange", updateFullscreenIcon);
+
+  // Preload and ensure that the PDF viewer iframe is responsive on window resize
+  let resizeObserver = null;
+  if (window.ResizeObserver) {
+    resizeObserver = new ResizeObserver(() => {
+      // just trigger reflow if needed - ensure iframe dimensions recalc
+      if (viewer) {
+        viewer.style.opacity = "0.99";
+        setTimeout(() => { if(viewer) viewer.style.opacity = "1"; }, 50);
+      }
+    });
+    if (pdfContainer) resizeObserver.observe(pdfContainer);
+  }
+
+  // fallback for mobile: when document is clicked make sure the iframe gets proper height after orientation
+  window.addEventListener("orientationchange", () => {
+    setTimeout(() => {
+      if (viewer) {
+        viewer.style.height = "100%";
+      }
+    }, 100);
+  });
+  
+  // set default on load
+  window.addEventListener("DOMContentLoaded", () => {
+    // verify that the default document loads correctly
+    if (viewer && viewer.src && !viewer.src.includes("englishresume.pdf")) {
+      viewer.src = "../documents/englishresume.pdf";
+    }
+    if (currentLabelSpan) currentLabelSpan.innerText = "🇬🇧 English Resume";
+    
+    // optional: preload check for missing files won't break experience but we ensure error handling gracefully
+    viewer.onerror = () => {
+      console.warn("PDF could not load, ensure files exist at correct path: ../documents/");
+    };
+  });
+  
+  // Ensure that PPTX are ONLY downloadable (they are already links with download attribute)
+  // additionally all buttons and links are functional as intended. The requirement: "all pptx can only be downloaded"
+  // All PPTX links have download attribute and no view button. Perfect.
+  
+  // Additional: for the Kikuyu and swahili, we fixed document paths exactly as requested.
+  // Also ensure that the video placeholder is visible but does not interfere - already done.
+  
+  // make the viewer adaptive to full height when sidebars change (lg responsive fix)
+  function adjustIframeHeight() {
+    if (viewer) {
+      const container = document.querySelector(".pdf-fullscreen-container");
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        viewer.style.height = `${rect.height}px`;
+      }
+    }
+  }
+  window.addEventListener("resize", () => setTimeout(adjustIframeHeight, 100));
+  setTimeout(adjustIframeHeight, 300);
+  
+  // Extra polish: on initial load, force iframe to have proper dimensions
+  window.addEventListener("load", () => {
+    adjustIframeHeight();
+    // set active doc if there is any hash or just default
+    if (window.location.hash) {
+      const hashType = window.location.hash.replace('#', '');
+      if (docs[hashType]) loadDoc(hashType);
+    }
+  });
+</script>
+
+<!-- Additional fallback CSS to ensure full view on all screens -->
+<style>
+  @media (max-width: 768px) {
+    .pdf-fullscreen-container {
+      min-height: 55vh;
+    }
+    iframe {
+      min-height: 55vh;
+    }
+  }
+  .pdf-fullscreen-container {
+    transition: all 0.2s ease;
+  }
+  .btn-doc:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  /* fullscreen native style */
+  .pdf-fullscreen-container:fullscreen {
+    background: #0a0c15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+  }
+  .pdf-fullscreen-container:fullscreen iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+</style>
+</body>
+</html>
